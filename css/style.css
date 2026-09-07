@@ -1,0 +1,860 @@
+:root {
+    --cream: #FBF1EC;
+    --paper: #FFFBF6;
+    --rose: #D98CA3;
+    --rose-deep: #B35C79;
+    --deep: #6E2C46;
+    --gold: #C6A15B;
+    --ink: #3B2430;
+    --ink-soft: #7A5A67;
+    --petal-a: #F3B9CB;
+    --petal-b: #EA95AF;
+    --petal-c: #F7D9CE;
+    --shadow: 0 18px 40px -12px rgba(110, 44, 70, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(214, 150, 170, 0.25), transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(198, 161, 91, 0.18), transparent 45%),
+        var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 600;
+    margin: 0;
+    color: var(--deep);
+}
+
+p {
+    margin: 0;
+    line-height: 1.7;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+::selection {
+    background: var(--rose);
+    color: #fff;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--rose-deep);
+    outline-offset: 3px;
+}
+
+/* ---------- Petals ---------- */
+#petal-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.petal {
+    position: absolute;
+    top: -8vh;
+    will-change: transform, opacity;
+    border-radius: 0% 100% 0% 100% / 0% 100% 0% 100%;
+    animation-name: fall;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    opacity: 0;
+}
+
+@keyframes fall {
+    0% {
+        transform: translate(0, -10vh) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 0.9;
+    }
+
+    25% {
+        transform: translate(var(--drift), 22vh) rotate(90deg) scale(1);
+    }
+
+    50% {
+        transform: translate(calc(var(--drift) * -1), 50vh) rotate(180deg) scale(0.95);
+    }
+
+    75% {
+        transform: translate(var(--drift), 78vh) rotate(270deg) scale(1);
+    }
+
+    92% {
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: translate(0, 112vh) rotate(360deg) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* ---------- Setup Screen ---------- */
+.screen {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6vh 5vw;
+    z-index: 10;
+}
+
+.setup-card {
+    position: relative;
+    background: var(--paper);
+    max-width: 480px;
+    width: 100%;
+    padding: 52px 44px 44px;
+    box-shadow: var(--shadow);
+    border-radius: 6px 26px 6px 26px;
+    text-align: left;
+}
+
+.setup-card::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(198, 161, 91, 0.45);
+    border-radius: 4px 22px 4px 22px;
+    pointer-events: none;
+}
+
+.setup-mark {
+    font-family: 'Caveat', cursive;
+    color: var(--rose-deep);
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.setup-title {
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
+    line-height: 1.15;
+    margin-bottom: 14px;
+}
+
+.setup-sub {
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+    max-width: 36ch;
+}
+
+.field {
+    margin-bottom: 22px;
+}
+
+.field label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.field input[type="text"] {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid rgba(217, 140, 163, 0.4);
+    background: transparent;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    padding: 8px 2px;
+    color: var(--ink);
+    transition: border-color .25s ease;
+    outline: none;
+}
+
+.field input[type="text"]:focus {
+    border-bottom-color: var(--rose-deep);
+}
+
+/* file-btn now sits flush with the label above it, same as the text field —
+   no more stray offset that made it drift away from the rest of the form */
+.file-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1.5px dashed var(--gold);
+    background: rgba(198, 161, 91, 0.08);
+    padding: 12px 18px;
+    border-radius: 30px;
+    color: var(--rose-deep);
+    font-size: 1.02rem;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.file-btn input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#photo-count,
+#song-count {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-top: 6px;
+}
+
+.start-btn {
+    margin-top: 14px;
+    width: 100%;
+    border: none;
+    background: var(--rose-deep);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 30px;
+    font-size: 1.15rem;
+    letter-spacing: .02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 12px 24px -10px rgba(179, 92, 121, 0.6);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 28px -10px rgba(179, 92, 121, 0.7);
+}
+
+/* ---------- App shell ---------- */
+.app {
+    position: relative;
+    min-height: 100vh;
+    z-index: 10;
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 9vh 7vw 20vh;
+    position: relative;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-inner {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.kicker {
+    font-family: 'Caveat', cursive;
+    color: var(--rose-deep);
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.page h2 {
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    margin-bottom: 22px;
+}
+
+.lede {
+    font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+    color: var(--ink);
+    max-width: 56ch;
+}
+
+.lede+.lede {
+    margin-top: 16px;
+}
+
+/* ---------- Page 1: corkboard / polaroids ---------- */
+.board {
+    position: relative;
+    margin-top: 48px;
+    min-height: 52vh;
+    border-radius: 18px;
+    background:
+        repeating-linear-gradient(0deg, rgba(198, 161, 91, 0.06) 0 1px, transparent 1px 26px),
+        repeating-linear-gradient(90deg, rgba(198, 161, 91, 0.06) 0 1px, transparent 1px 26px),
+        rgba(255, 251, 246, 0.55);
+    border: 1px solid rgba(198, 161, 91, 0.3);
+    padding: 28px;
+    overflow: visible;
+}
+
+.polaroid {
+    position: absolute;
+    width: 170px;
+    background: #fff;
+    padding: 10px 10px 34px;
+    box-shadow: 0 14px 24px -10px rgba(59, 36, 48, 0.35);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    transition: box-shadow .2s ease;
+}
+
+.polaroid.dragging {
+    cursor: grabbing;
+    box-shadow: 0 26px 46px -14px rgba(59, 36, 48, 0.55);
+    z-index: 50 !important;
+    transition: none;
+}
+
+.polaroid img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.polaroid .cap {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+}
+
+.polaroid .tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 56px;
+    height: 20px;
+    background: rgba(230, 214, 190, 0.75);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.board-empty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    min-height: 44vh;
+}
+
+.board-empty .placeholder-card {
+    width: 150px;
+    height: 180px;
+    border: 1.5px dashed rgba(198, 161, 91, 0.55);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--rose-deep);
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 10px;
+}
+
+.board-hint {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    text-align: center;
+    font-style: italic;
+}
+
+/* ---------- Music toggle ---------- */
+.music-toggle {
+    position: fixed;
+    top: 26px;
+    left: 26px;
+    z-index: 60;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid rgba(198, 161, 91, 0.4);
+    color: var(--rose-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px -8px rgba(110, 44, 70, 0.4);
+    transition: transform .2s ease;
+}
+
+.music-toggle:hover {
+    transform: translateY(-2px);
+}
+
+.music-toggle i {
+    transition: transform .3s ease;
+}
+
+.music-toggle.spinning i {
+    animation: spin 3.5s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Envelope ---------- */
+.envelope-wrap {
+    position: fixed;
+    top: 26px;
+    right: 26px;
+    z-index: 60;
+}
+
+.envelope {
+    width: 64px;
+    height: 46px;
+    position: relative;
+    cursor: pointer;
+}
+
+.envelope .body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--rose) 0%, var(--rose-deep) 100%);
+    border-radius: 4px;
+    box-shadow: 0 10px 20px -8px rgba(110, 44, 70, 0.55);
+}
+
+.envelope .flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0 0, 100% 0, 50% 58%);
+    background: linear-gradient(160deg, #EFC0CE 0%, var(--rose) 100%);
+    transform-origin: top center;
+    transition: transform .5s cubic-bezier(.6, -0.28, .35, 1.35);
+}
+
+.envelope .heart-seal {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    font-size: 0.85rem;
+    z-index: 2;
+}
+
+.envelope.open .flap {
+    transform: rotateX(150deg);
+}
+
+.envelope-label {
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    color: var(--rose-deep);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.letter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(59, 36, 48, 0.45);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 70;
+    padding: 6vh 5vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease;
+}
+
+.letter-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.letter {
+    background: var(--paper);
+    max-width: 460px;
+    width: 100%;
+    padding: 40px 36px;
+    border-radius: 4px 22px 4px 22px;
+    box-shadow: var(--shadow);
+    position: relative;
+    transform: translateY(18px) scale(0.96);
+    opacity: 0;
+    transition: transform .4s ease, opacity .4s ease;
+}
+
+.letter-overlay.show .letter {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.letter-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+}
+
+.letter p {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.letter .sign {
+    display: block;
+    margin-top: 18px;
+    text-align: right;
+    color: var(--rose-deep);
+}
+
+/* ---------- Carousel ---------- */
+.carousel {
+    margin-top: 44px;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255, 251, 246, 0.6);
+    border: 1px solid rgba(198, 161, 91, 0.28);
+    padding: 26px;
+}
+
+.carousel-track {
+    position: relative;
+    height: 260px;
+}
+
+.carousel-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity .7s ease, transform .7s ease;
+    pointer-events: none;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.carousel-slide img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 16px 30px -12px rgba(59, 36, 48, 0.4);
+}
+
+.carousel-slide .quote-card {
+    max-width: 80%;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    color: var(--deep);
+    padding: 20px;
+}
+
+.carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.carousel-nav button {
+    background: none;
+    border: 1px solid var(--rose-deep);
+    color: var(--rose-deep);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease, color .2s ease;
+}
+
+.carousel-nav button:hover {
+    background: var(--rose-deep);
+    color: #fff;
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.carousel-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(179, 92, 121, 0.3);
+    display: inline-block;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.carousel-dots span.active {
+    background: var(--rose-deep);
+    transform: scale(1.3);
+}
+
+/* ---------- Reasons list (page 3) ---------- */
+.reasons {
+    margin-top: 38px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.reason {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.reason i {
+    color: var(--rose-deep);
+    margin-top: 6px;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.reason p {
+    font-size: 1.15rem;
+}
+
+/* ---------- Doll page ---------- */
+.doll-stage {
+    position: relative;
+    margin: 44px auto 0;
+    width: 220px;
+    height: 220px;
+}
+
+.doll-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 20px 40px -16px rgba(59, 36, 48, 0.35);
+    animation: sway 4.5s ease-in-out infinite;
+    transform-origin: 50% 92%;
+}
+
+@keyframes sway {
+
+    0%,
+    100% {
+        transform: rotate(-4deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(4deg) translateY(-8px);
+    }
+}
+
+.floating-heart {
+    position: absolute;
+    color: var(--rose);
+    opacity: 0.85;
+    animation: floatUp 5s ease-in infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(10px) scale(0.8);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translateY(-160px) scale(1.1);
+        opacity: 0;
+    }
+}
+
+/* fixed: was using margin-left:10% which fought the parent's text-align:center
+   and pushed the closing paragraph off-center on wider screens. margin:auto
+   centers the block itself, text-align:center handles the text inside it. */
+.closing-text {
+    margin: 10px auto 0;
+    text-align: center;
+    max-width: 52ch;
+}
+
+/* ---------- Pager ---------- */
+.pager {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 22px;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+}
+
+.pager button {
+    background: var(--paper);
+    border: 1px solid rgba(198, 161, 91, 0.4);
+    color: var(--rose-deep);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 18px -10px rgba(59, 36, 48, 0.4);
+    transition: transform .2s ease;
+}
+
+.pager button:hover {
+    transform: translateY(-2px);
+}
+
+.pager button:disabled {
+    opacity: 0.35;
+    cursor: default;
+    transform: none;
+}
+
+.pager-dots {
+    display: flex;
+    gap: 10px;
+}
+
+.pager-dots i {
+    font-size: 0.65rem;
+    color: rgba(179, 92, 121, 0.35);
+    transition: color .25s ease, transform .25s ease;
+}
+
+.pager-dots i.active {
+    color: var(--rose-deep);
+    transform: scale(1.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .petal,
+    .doll-stage img,
+    .floating-heart,
+    .music-toggle.spinning i {
+        animation: none !important;
+    }
+
+    .letter,
+    .carousel-slide,
+    .start-btn,
+    .polaroid {
+        transition: none !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .setup-card {
+        padding: 40px 26px 32px;
+    }
+
+    .page {
+        padding: 8vh 6vw 16vh;
+    }
+
+    .board {
+        min-height: 60vh;
+        padding: 18px;
+    }
+
+    .polaroid {
+        width: 130px;
+    }
+
+    .polaroid img {
+        height: 112px;
+    }
+
+    .envelope-wrap {
+        top: 16px;
+        right: 16px;
+    }
+
+    .envelope {
+        width: 52px;
+        height: 38px;
+    }
+
+    .music-toggle {
+        top: 16px;
+        left: 16px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .carousel-track {
+        height: 230px;
+    }
+
+    .pager {
+        gap: 14px;
+        bottom: 14px;
+    }
+}

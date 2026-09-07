@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ne">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timro Lagi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Caveat:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <div id="petal-field"></div>
+    <div id="setup-screen" class="screen">
+        <div class="setup-card">
+            <span class="setup-mark">ekchin timro lagi&hellip;</span>
+            <h1 class="setup-title">Yo sano upahar timro naam ma banayeko</h1>
+            <p class="setup-sub">Suru garnu agadi, tin ota kura sodhchu &mdash; please bhandinu hola</p>
+
+            <form id="setup-form" novalidate="false">
+                <div class="field">
+                    <label for="nickname-input">Timilai k bhanera bolau ma?</label>
+                    <input type="text" id="nickname-input" placeholder="Please enter your nickname" required>
+                </div>
+
+                <div class="field">
+                    <label>Kripaya kehi photo haru upload garnus (khali na-chaddinus)</label>
+                    <span class="file-btn">
+                        <i class="fa-solid fa-images"></i> Photo haru upload garnus
+                        <input type="file" id="photo-input" multiple accept="image/*" required>
+                    </span>
+                    <span id="photo-count"></span>
+                </div>
+
+                <div class="field">
+                    <label>Timro favourite song pani upload garnus (loop ma infinite bajirahancha)</label>
+                    <span class="file-btn">
+                        <i class="fa-solid fa-music"></i> Song upload garnus
+                        <input type="file" id="song-input" accept="audio/*" required>
+                    </span>
+                    <span id="song-count"></span>
+                </div>
+
+                <button class="start-btn" id="start-btn" type="submit">Kholera herunus Please <i
+                        class="fa-solid fa-heart"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div id="app" class="app hidden">
+
+        <audio id="bg-audio" loop></audio>
+        <button id="music-toggle" class="music-toggle hidden" aria-label="pause song">
+            <i class="fa-solid fa-pause"></i>
+        </button>
+
+        <div class="envelope-wrap" id="envelope-wrap">
+            <div class="envelope" id="envelope-btn">
+                <div class="body"></div>
+                <i class="fa-solid fa-heart heart-seal"></i>
+                <div class="flap"></div>
+            </div>
+            <div class="envelope-label">kholera hernu</div>
+        </div>
+
+        <div class="letter-overlay" id="letter-overlay">
+            <div class="letter">
+                <button class="letter-close" id="letter-close" aria-label="close"><i
+                        class="fa-solid fa-xmark"></i></button>
+                <p id="letter-text"></p>
+                <span class="sign">— uhi pagal premi</span>
+            </div>
+        </div>
+
+        <!-- PAGE 1 -->
+        <section class="page active" data-page="1">
+            <div class="page-inner">
+                <span class="kicker">page ek</span>
+                <h2>Hey, <span class="nickname-slot"></span></h2>
+                <p class="lede">Yo board timro nai ho. Photo haru jaha man lagcha, tanera rakhnus &mdash; yo ghar
+                    timro ho, sajaunu timro kaam.</p>
+                <div class="board" id="board"></div>
+                <p class="board-hint" id="board-hint"></p>
+            </div>
+        </section>
+
+        <!-- PAGE 2 -->
+        <section class="page" data-page="2">
+            <div class="page-inner">
+                <span class="kicker">page dui</span>
+                <h2>Timro barema sochda</h2>
+                <p class="lede">Kahile kahi kunai kura bhannai pardaina, tara mann le bhanihalcha. Timro haso le din
+                    ramro banauncha, timro awaz sunna sathei sabai thik lagcha.</p>
+                <p class="lede">Yesle sabai bhanna sakdaina, tara ekchoti herera januhos.</p>
+                <div class="carousel">
+                    <div class="carousel-track" id="carousel-track"></div>
+                    <div class="carousel-nav">
+                        <button id="car-prev" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div class="carousel-dots" id="carousel-dots"></div>
+                        <button id="car-next" aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3 -->
+        <section class="page" data-page="3">
+            <div class="page-inner">
+                <span class="kicker">page teen</span>
+                <h2>Kina timi, bhanda&hellip;</h2>
+                <p class="lede">List banauna gaharo cha, kina ki dherai kura haru chan. Tara kehi points haru yesto
+                    jun bhanna man lagcha:</p>
+                <div class="reasons">
+                    <div class="reason"><i class="fa-solid fa-seedling"></i>
+                        <p>Timi sanga kura garda samaya kahile jancha, thaha nai hudaina.</p>
+                    </div>
+                    <div class="reason"><i class="fa-solid fa-seedling"></i>
+                        <p>Naramro din ma pani, timro ek ota message le sabai thik banauncha.</p>
+                    </div>
+                    <div class="reason"><i class="fa-solid fa-seedling"></i>
+                        <p>Timi jasto sochchau, tyo bhanda dherai maya garnechu timilai.</p>
+                    </div>
+                    <div class="reason"><i class="fa-solid fa-seedling"></i>
+                        <p>Chhoto chhoto kurakani haru bhaye pani, timi sanga bhaye khaas lagcha.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4 -->
+        <section class="page" data-page="4">
+            <div class="page-inner">
+                <span class="kicker">page char</span>
+                <h2>Tara ekchin, sun na</h2>
+                <p class="lede">Yo sabai lekhna easy thiyena &mdash; kina bhane maya bhanne kura shabda ma bayan garnu
+                    garo huncha. Tara yeti bhanchu: jaha samma ma sakchu, timro sath dineychu.</p>
+                <p class="lede">Timro sapana haru, timro dukha ko pal haru, timro sano sano khusi &mdash; sabai ma ma
+                    sanga hunechu.</p>
+            </div>
+        </section>
+
+        <!-- PAGE 5 -->
+        <section class="page" data-page="5">
+            <div class="page-inner" style="text-align:center;">
+                <span class="kicker">antim page</span>
+                <h2>Yehi ho, maya in simple words</h2>
+                <div class="doll-stage" id="doll-stage">
+                    <img src="./images/piggy.gif" alt="cute piggy">
+                </div>
+                <p class="lede closing-text">Yo webpage code le banayeko ho, tara yesma lekheko kura haru sabai
+                    saccho ho. Dherai maya, <span class="nickname-slot"></span>.</p>
+            </div>
+        </section>
+
+        <nav class="pager">
+            <button id="prev-btn" aria-label="previous page"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="pager-dots" id="pager-dots"></div>
+            <button id="next-btn" aria-label="next page"><i class="fa-solid fa-chevron-right"></i></button>
+        </nav>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
